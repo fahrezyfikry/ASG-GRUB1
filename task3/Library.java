@@ -281,17 +281,4 @@ class Library {
             }
         }
     }
-    
-    // Getter methods
-    public int getBookCount() {
-        return bookCount;
-    }
-    
-    public int getCapacity() {
-        return capacity;
-    }
-    
-    public String getLibraryName() {
-        return libraryName;
-    }
 }

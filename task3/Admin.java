@@ -8,7 +8,7 @@ class Admin extends User {
     private int booksAdded;
     
     public Admin(String userId, String name) {
-        super(userId, name, "ADMIN"); // Panggil konstruktor induk
+        super(userId, name, UserRole.ADMIN.name()); // Panggil konstruktor induk
         this.booksAdded = 0;
     }
 
@@ -16,16 +16,16 @@ class Admin extends User {
     @Override
     public void showMenu() {
         System.out.println("╔════════════════════════════════════════════════════╗");
-        System.out.println("║            SISTEM PENGELOLAAN DATA BUKU           ║");
-        System.out.println("║                  MENU ADMIN                       ║");
+        System.out.println("║            SISTEM PENGELOLAAN DATA BUKU            ║");
+        System.out.println("║                  MENU ADMIN                        ║");
         System.out.println("╠════════════════════════════════════════════════════╣");
-        System.out.println("║ User: " + String.format("%-20s", getName()) + " Role: " + String.format("%-12s", getUserRole()) + " ║");
+        System.out.println("║ User: " + String.format("%-20s", getName()) + " Role: " + String.format("%-12s", getUserType()) + " ║");
         System.out.println("╠════════════════════════════════════════════════════╣");
-        System.out.println("║ 1. Lihat Semua Buku                               ║");
-        System.out.println("║ 2. Tambah Buku                                    ║");
-        System.out.println("║ 3. Hapus Buku                                     ║");
-        System.out.println("║ 4. Cari Buku                                      ║");
-        System.out.println("║ 5. Lihat Laporan Perpustakaan                     ║");
+        System.out.println("║ 1. Lihat Semua Buku                                ║");
+        System.out.println("║ 2. Tambah Buku                                     ║");
+        System.out.println("║ 3. Hapus Buku                                      ║");
+        System.out.println("║ 4. Cari Buku                                       ║");
+        System.out.println("║ 5. Lihat Laporan Perpustakaan                      ║");
         System.out.println("║ 6. Keluar                                          ║");
         System.out.println("╚════════════════════════════════════════════════════╝");
     }
@@ -43,12 +43,6 @@ class Admin extends User {
         System.out.println("Admin " + name + " melihat semua buku di perpustakaan:");
         library.displayAllBooks();
     }
-    
-    // Metode yang menunjukkan hak istimewa admin
-    public void generateReport(Library library) {
-        System.out.println("=== Laporan Perpustakaan oleh Admin " + name + " ===");
-        library.displayLibraryStatistics();
-    }
 
     /**
      * Mengembalikan total opsi menu untuk admin
@@ -57,15 +51,6 @@ class Admin extends User {
     @Override
     public int getTotalMenuOptions() {
         return 5;
-    }
-
-    /**
-     * Mengembalikan peran user sebagai ADMIN
-     * @return
-     */
-    @Override
-    public UserRole getUserRole() {
-        return UserRole.ADMIN;
     }
 
     /**

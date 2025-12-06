@@ -32,16 +32,10 @@ abstract class User {
         return userType;
     }
 
-    // Metode umum untuk semua pengguna
-    public void displayUserInfo() {
-        System.out.println("ID: " + userId + ", Name: " + name + ", Type: " + userType);
-    }
-
     // Metode abstrak - harus diimplementasikan oleh kelas turunan (polimorfisme)
     public abstract void showMenu();
     public abstract void handleMenuOption1(Library library, Scanner scanner);
     public abstract void handleMenuOption2(Library library, Scanner scanner);
     public abstract void handleMenuOption3(Library library, Scanner scanner);
     public abstract int getTotalMenuOptions();
-    public abstract UserRole getUserRole();
 }

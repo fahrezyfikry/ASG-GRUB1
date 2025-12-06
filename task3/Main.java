@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -140,7 +141,7 @@ public class Main {
                     perpustakaan.findBookByTitle(scanner);
                     break;
                 case "5":
-                    if (currentUser.getUserRole() == UserRole.MEMBER) {
+                    if (currentUser.getUserType().equals(UserRole.MEMBER.name())) {
                         running = handleExit();
                         break;
                     } else {
@@ -148,10 +149,12 @@ public class Main {
                     }
                     break;
                 case "6":
-                    if (currentUser.getUserRole() == UserRole.ADMIN) {
+                    if (currentUser.getUserType().equals(UserRole.ADMIN.name())) {
                         running = handleExit();
                         break;
                     }
+                    System.out.println("❌ Pilihan tidak valid! Silakan pilih 1-" + totalOptions + ".");
+                    break;
                 default:
                     System.out.println("❌ Pilihan tidak valid! Silakan pilih 1-" + totalOptions + ".");
             }
