@@ -1,9 +1,7 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
     interface CharStack {
         void push(char c);
 
@@ -26,7 +24,6 @@ public class Main {
         @Override
         public void push(char c) {
             if (top + 1 == data.length) {
-                // grow
                 char[] nd = new char[data.length * 2];
                 System.arraycopy(data, 0, nd, 0, data.length);
                 data = nd;
@@ -54,43 +51,20 @@ public class Main {
         }
     }
 
-    static class LinkedCharStack implements CharStack {
-        static class Node {
-            char val;
-            Node next;
+    static class DoubleStack {
+        private double[] data;
+        private int top = -1;
 
-            Node(char v, Node n) {
-                val = v;
-                next = n;
-            }
+        DoubleStack(int cap) {
+            data = new double[cap];
         }
 
-        private Node head;
-
-        @Override
-        public void push(char c) {
-            head = new Node(c, head);
+        void push(double v) {
+            data[++top] = v;
         }
 
-        @Override
-        public char pop() {
-            if (isEmpty())
-                throw new IllegalStateException("Stack kosong");
-            char v = head.val;
-            head = head.next;
-            return v;
-        }
-
-        @Override
-        public char peek() {
-            if (isEmpty())
-                throw new IllegalStateException("Stack kosong");
-            return head.val;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return head == null;
+        double pop() {
+            return data[top--];
         }
     }
 
@@ -109,10 +83,7 @@ public class Main {
         if (s.isEmpty())
             return false;
 
-        CharStack st = stackImpl.equalsIgnoreCase("linked")
-                ? new LinkedCharStack()
-                : new ArrayCharStack(s.length());
-
+        ArrayCharStack st = new ArrayCharStack(s.length());
         TokenType prev = null;
         int i = 0;
 
@@ -123,10 +94,10 @@ public class Main {
                 i++;
                 continue;
             }
+
             if (Character.isDigit(c)) {
-                if (prev == TokenType.OPERAND || prev == TokenType.RPAREN) {
+                if (prev == TokenType.OPERAND || prev == TokenType.RPAREN)
                     return false;
-                }
                 while (i < s.length() && Character.isDigit(s.charAt(i)))
                     i++;
                 prev = TokenType.OPERAND;
@@ -134,21 +105,17 @@ public class Main {
             }
 
             if (c == '(') {
-                if (prev == TokenType.OPERAND || prev == TokenType.RPAREN) {
+                if (prev == TokenType.OPERAND || prev == TokenType.RPAREN)
                     return false;
-                }
-                st.push('(');
+                st.push(c);
                 prev = TokenType.LPAREN;
                 i++;
                 continue;
             }
 
             if (c == ')') {
-                if (st.isEmpty())
+                if (st.isEmpty() || prev == TokenType.OPERATOR || prev == TokenType.LPAREN)
                     return false;
-                if (prev == null || prev == TokenType.OPERATOR || prev == TokenType.LPAREN) {
-                    return false;
-                }
                 st.pop();
                 prev = TokenType.RPAREN;
                 i++;
@@ -156,202 +123,141 @@ public class Main {
             }
 
             if (isOperator(c)) {
-                if (prev == null || prev == TokenType.OPERATOR || prev == TokenType.LPAREN) {
+                if (prev == null || prev == TokenType.OPERATOR || prev == TokenType.LPAREN)
                     return false;
-                }
                 prev = TokenType.OPERATOR;
                 i++;
                 continue;
             }
-
             return false;
         }
-
-        if (prev == TokenType.OPERATOR || prev == TokenType.LPAREN)
-            return false;
-        return st.isEmpty();
+        return prev != TokenType.OPERATOR && st.isEmpty();
     }
 
-    /**
-     * Method untuk mengembalikan prioritas operator
-     * 
-     * @param op
-     * @return
-     */
     static int getOperatorPriority(char op) {
         if (op == '+' || op == '-')
-            return 1; // return 1 for + dan - karena memiliki prioritas lebih rendah
-
+            return 1;
         if (op == '*' || op == '/')
-            return 2; // return 2 for * dan / karena memiliki prioritas lebih tinggi
-
-        return 0; // invalid operator
-
+            return 2;
+        return 0;
     }
 
-/**
- * Fungsi konversi infix ke postfix
- * 
- * @param infix
- * @return
- */
-static String toPostfix(String infix) {
-    // buat output string
-    StringBuilder output = new StringBuilder();
-    // inisialisasi stack
-    ArrayCharStack stack = new ArrayCharStack(infix.length());
+    static String toPostfix(String infix) {
+        StringBuilder output = new StringBuilder();
+        ArrayCharStack stack = new ArrayCharStack(infix.length());
 
-    // loop tiap karakter
-    for (int i = 0; i < infix.length(); i++) {
-        char c = infix.charAt(i);
-        
-        // skip spasi
-        if (Character.isWhitespace(c))
-            continue;
-            
-        // kalau angka langsung append
-        if (Character.isDigit(c)) {
-            output.append(c);
-            continue;
-        }
-        
-        // kurung buka push ke stack
-        if (c == '(') {
-            stack.push(c);
-            continue;
-        }
-        
-        // kurung tutup pop sampai ketemu kurung buka
-        if (c == ')') {
-            while (!stack.isEmpty() && stack.peek() != '(')
-                output.append(stack.pop());
-            stack.pop(); // buang '('
-            continue;
-        }
-        
-        // operator: pop kalo prioritas di stack >= prioritas sekarang
-        while (!stack.isEmpty() && stack.peek() != '('
-                && getOperatorPriority(stack.peek()) >= getOperatorPriority(c))
-            output.append(stack.pop());
-        stack.push(c);
-    }
-    
-    // kosongkan sisa stack
-    while (!stack.isEmpty())
-        output.append(stack.pop());
-        
-    return output.toString();
-}
+        for (char c : infix.toCharArray()) {
+            if (Character.isWhitespace(c))
+                continue;
 
-/**
- * Fungsi konversi infix ke prefix
- * 
- * @param infix
- * @return
- */
-static String toPrefix(String infix) {
-    // pecah jadi token dulu
-    List<String> tokens = tokenize(infix);
-    
-    // list buat operand
-    List<String> operands = new ArrayList<>();
-    // list buat operator
-    List<String> operators = new ArrayList<>();
-    
-    // memisahkan operand dan operator
-    for (String token : tokens) {
-        // kalau angka masuk operand
-        if (token.matches("\\d+")) {
-            operands.add(token);
-        } 
-        // kalau operator masuk operator
-        else if (isOperator(token.charAt(0))) {
-            operators.add(token);
-        }
-    }
-    
-    // rotasi: operand pertama pindah ke belakang
-    if (operands.size() > 1) {
-        operands.add(operands.remove(0));
-    }
-    
-    // menggabungkan hasil
-    StringBuilder result = new StringBuilder();
-    // masukin operator dulu
-    for (String op : operators) {
-        result.append(op);
-    }
-    // baru operand
-    for (String num : operands) {
-        result.append(num);
-    }
-    
-    return result.toString();
-}
-
-/**
- * Tokenize infix jadi list token
- */
-static List<String> tokenize(String infix) {
-    // list penampung token
-    List<String> tokens = new ArrayList<>();
-    int i = 0;
-    
-    // loop sampai habis
-    while (i < infix.length()) {
-        char c = infix.charAt(i);
-        
-        // skip spasi
-        if (Character.isWhitespace(c)) {
-            i++;
-            continue;
-        }
-        
-        // kalau digit, baca semua digitnya (supaya support multi-digit)
-        if (Character.isDigit(c)) {
-            StringBuilder num = new StringBuilder();
-            while (i < infix.length() && Character.isDigit(infix.charAt(i))) {
-                num.append(infix.charAt(i++));
+            if (Character.isDigit(c)) {
+                output.append(c);
+            } else if (c == '(') {
+                stack.push(c);
+            } else if (c == ')') {
+                while (!stack.isEmpty() && stack.peek() != '(')
+                    output.append(stack.pop());
+                stack.pop();
+            } else {
+                while (!stack.isEmpty() && stack.peek() != '(' &&
+                        getOperatorPriority(stack.peek()) >= getOperatorPriority(c))
+                    output.append(stack.pop());
+                stack.push(c);
             }
-            tokens.add(num.toString());
-            continue;
         }
-        
-        // selain digit (operator/kurung) tambahin langsung
-        tokens.add(String.valueOf(c));
-        i++;
+
+        while (!stack.isEmpty())
+            output.append(stack.pop());
+
+        return output.toString();
     }
-    
-    return tokens;
-}
+
+    static String toPrefix(String infix) {
+        String rev = new StringBuilder(infix).reverse().toString();
+        rev = rev.replace('(', '#').replace(')', '(').replace('#', ')');
+        return new StringBuilder(toPostfix(rev)).reverse().toString();
+    }
+
+    static double evaluatePostfixWithSteps(String postfix) {
+        DoubleStack stack = new DoubleStack(postfix.length());
+
+        System.out.println("\nProses evaluasi postfix:");
+        for (char c : postfix.toCharArray()) {
+            if (Character.isDigit(c)) {
+                stack.push(c - '0');
+                System.out.println("Push operand: " + (c - '0'));
+            } else {
+                double b = stack.pop();
+                double a = stack.pop();
+                double r = switch (c) {
+                    case '+' -> a + b;
+                    case '-' -> a - b;
+                    case '*' -> a * b;
+                    case '/' -> a / b;
+                    default -> 0;
+                };
+                System.out.println(a + " " + c + " " + b + " = " + r);
+                stack.push(r);
+            }
+        }
+        double result = stack.pop();
+        System.out.println("Hasil akhir postfix: " + result);
+        return result;
+    }
+
+    static double evaluatePrefixWithSteps(String prefix) {
+        DoubleStack stack = new DoubleStack(prefix.length());
+
+        System.out.println("\nProses evaluasi prefix:");
+        for (int i = prefix.length() - 1; i >= 0; i--) {
+            char c = prefix.charAt(i);
+            if (Character.isDigit(c)) {
+                stack.push(c - '0');
+                System.out.println("Push operand: " + (c - '0'));
+            } else {
+                double a = stack.pop();
+                double b = stack.pop();
+                double r = switch (c) {
+                    case '+' -> a + b;
+                    case '-' -> a - b;
+                    case '*' -> a * b;
+                    case '/' -> a / b;
+                    default -> 0;
+                };
+                System.out.println(a + " " + c + " " + b + " = " + r);
+                stack.push(r);
+            }
+        }
+        double result = stack.pop();
+        System.out.println("Hasil akhir prefix: " + result);
+        return result;
+    }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        String stackMode = "array";
-
-        String infix;
         while (true) {
             System.out.print("Masukkan notasi infix: ");
-            infix = sc.nextLine();
+            String infix = sc.nextLine();
 
-            if (isValidInfix(infix, stackMode)) {
-                System.out.println("✅ Infix VALID: " + infix);
-                // konversi ke postfix dan prefix
+            if (isValidInfix(infix, "array")) {
+                System.out.println("✅ Infix VALID");
+
                 String postfix = toPostfix(infix);
                 String prefix = toPrefix(infix);
 
-                System.out.println("Postfix: " + postfix);
-                System.out.println("Prefixn: " + prefix);
+                System.out.println("Postfix : " + postfix);
+                System.out.println("Prefix  : " + prefix);
+
+                evaluatePostfixWithSteps(postfix);
+                evaluatePrefixWithSteps(prefix);
                 break;
             } else {
-                System.out.println("❌ Infix TIDAK valid. Coba lagi.");
+                System.out.println("❌ Infix TIDAK valid\n");
                 System.out.println("Contoh valid: 5 + 4 / 5");
                 System.out.println("Contoh tidak valid: 5 * 5 +");
             }
-            System.out.println();
         }
-
         sc.close();
     }
 }
