@@ -8,4 +8,15 @@ public class StudentHashTable {
       table.put(nim, mhs);
       System.out.println("Mahasiswa berhasil ditambahkan!");
     }
+
+    public void search(String nim) {
+      Mahasiswa mhs = table.get(nim);
+
+      if (mhs != null) {
+        System.out.println("Mahasiswa ditemukan:");
+        mhs.display();
+      } else {
+        System.out.println("Mahasiswa tidak ditemukan.");
+      }
+    }
 }
