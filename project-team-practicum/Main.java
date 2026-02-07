@@ -22,21 +22,32 @@ public class Main {
 
       switch (pilih) {
         case 1:
-          System.out.print("Masukkan NIM: ");
-          String nim = input.nextLine();
+          while (true) {
+            System.out.print("Masukkan NIM (atau tekan Enter untuk batal): ");
+            String nim = input.nextLine();
+            if (nim.trim().isEmpty()) {
+              System.out.println("Batal menambah mahasiswa.");
+              break;
+            }
 
-          System.out.print("Masukkan Nama: ");
-          String nama = input.nextLine();
+            System.out.print("Masukkan Nama: ");
+            String nama = input.nextLine();
 
-          System.out.print("Masukkan IPK: ");
-          double ipk = input.nextDouble();
+            System.out.print("Masukkan IPK: ");
+            double ipk = input.nextDouble();
+            input.nextLine(); // consume newline
 
-          if (data.insert(nim, nama, ipk)) {
-            // Keep the graph aligned with the student master data.
-            graph.addStudent(nim);
-            System.out.println("Mahasiswa berhasil ditambahkan!");
-          } else {
-            System.out.println("NIM sudah terdaftar.");
+            if (data.insert(nim, nama, ipk)) {
+              graph.addStudent(nim);
+              System.out.println("Mahasiswa berhasil ditambahkan!");
+            } else {
+              System.out.println("NIM sudah terdaftar.");
+            }
+
+            System.out.print("Tambah lagi? (y/n): ");
+            String lagi = input.nextLine();
+            if (!lagi.equalsIgnoreCase("y"))
+              break;
           }
           break;
 
