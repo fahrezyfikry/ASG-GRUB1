@@ -18,6 +18,7 @@ public class StudentGraph {
 
   public boolean searchStudent(String nim) {
     // BFS checks reachability by exploring neighbors level by level.
+    // It's a simple fit for unweighted reachability without extra weight handling.
     if (adjList.isEmpty()) {
       return false;
     }
