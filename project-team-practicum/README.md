@@ -11,15 +11,19 @@
   <b>Week 10</b>
 </p>
 
-| Nama                                   | NIM        | Program Studi      |
-|----------------------------------------|-----------|--------------------|
-| MUHAMMAD ALFIAN HAMZAH                 | 2802649883 | Computer Science   |
-| FIKRY FAHREZY RAMADHAN                 | 2802658263 | Computer Science   |
-| SINAI ABDUL FATTAH                     | 2602258156 | Computer Science   |
-| AGUSTINUS PARDAMEAN LUMBAN TOBING      | 2602191251 | Computer Science   |
-| SEPTIA DINI RAHAYU                     | 2802663931 | Computer Science   |
+| Nama                                   | NIM        |
+|----------------------------------------|------------|
+| MUHAMMAD ALFIAN HAMZAH                 | 2802649883 |
+| FIKRY FAHREZY RAMADHAN                 | 2802658263 |
+| SINAI ABDUL FATTAH                     | 2602258156 |
+| AGUSTINUS PARDAMEAN LUMBAN TOBING      | 2602191251 |
+| SEPTIA DINI RAHAYU                     | 2802663931 |
 
 # Sistem Data Mahasiswa - Hash Table, Graph & BST
+
+## Link project:
+
+https://github.com/Kelompok-DA/ASG-GRUB1/tree/main/project-teampracticum
 
 ## Deskripsi Project
 
