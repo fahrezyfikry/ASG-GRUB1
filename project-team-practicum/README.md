@@ -1,6 +1,27 @@
-# 📚 Sistem Data Mahasiswa - Hash Table, Graph & BST
+<p align="center">
+  <b>Tugas Praktikum 3</b>
+  <b>Proyek Kelompok</b>
+</p>
 
-## 👨‍💻 Deskripsi Project
+<p align="center">
+  <b>Proyek Kelompok</b>
+</p>
+
+<p align="center">
+  <b>Week 10</b>
+</p>
+
+| Nama                                   | NIM        | Program Studi      |
+|----------------------------------------|-----------|--------------------|
+| MUHAMMAD ALFIAN HAMZAH                 | 2802649883 | Computer Science   |
+| FIKRY FAHREZY RAMADHAN                 | 2802658263 | Computer Science   |
+| SINAI ABDUL FATTAH                     | 2602258156 | Computer Science   |
+| AGUSTINUS PARDAMEAN LUMBAN TOBING      | 2602191251 | Computer Science   |
+| SEPTIA DINI RAHAYU                     | 2802663931 | Computer Science   |
+
+# Sistem Data Mahasiswa - Hash Table, Graph & BST
+
+## Deskripsi Project
 
 Sistem Data Mahasiswa adalah aplikasi berbasis Java yang digunakan untuk mengelola data mahasiswa dengan memanfaatkan **Hash Table** dan **Graph**.
 
@@ -17,7 +38,7 @@ Hash Table dipilih karena memiliki performa sangat cepat dalam proses pencarian 
 
 ---
 
-## 🎯 Tujuan Project
+## Tujuan Project
 
 - Mengimplementasikan struktur data Hash Table dan Graph dalam Java
 - Memahami cara kerja operasi insert, search, dan delete
@@ -26,9 +47,9 @@ Hash Table dipilih karena memiliki performa sangat cepat dalam proses pencarian 
 
 ---
 
-## 🧠 Struktur Data yang Digunakan
+## Struktur Data yang Digunakan
 
-### ✅ Hash Table (HashMap)
+### Hash Table (HashMap)
 
 Digunakan untuk menyimpan data mahasiswa dengan **NIM sebagai key**.
 
@@ -38,13 +59,13 @@ Digunakan untuk menyimpan data mahasiswa dengan **NIM sebagai key**.
 - Insert cepat
 - Cocok untuk sistem database sederhana
 
-### ✅ Graph (Adjacency List)
+### Graph (Adjacency List)
 
 Digunakan untuk menyimpan relasi antar mahasiswa berdasarkan NIM.
 
 Contoh use case: memodelkan hubungan kolaborasi (pernah satu tim proyek) agar bisa melihat koneksi antar mahasiswa.
 
-### ✅ Binary Search Tree (BST)
+### Binary Search Tree (BST)
 
 Digunakan untuk menampilkan rangking mahasiswa berdasarkan IPK, apabila terdapat 2 mahasiswa yang memiliki IPK sama, maka akan diurutkan berdasarkan NIM.
 
@@ -59,9 +80,9 @@ BFS dipilih karena relasi tidak berbobot dan kita hanya butuh mengecek keterhubu
 
 ---
 
-## ⚙️ Fitur Aplikasi
+## Fitur Aplikasi
 
-### ✅ Fitur yang Sudah Diimplementasikan
+### Fitur yang Sudah Diimplementasikan
 
 #### 1. Insert Data Mahasiswa
 
@@ -116,7 +137,7 @@ Menampilkan ranking berdasarkan IPK dari tertinggi ke terdendah
 
 ---
 
-## 🏗️ Struktur Project
+## Struktur Project
 
 ```bash
 SistemDataMahasiswa/
@@ -131,16 +152,20 @@ SistemDataMahasiswa/
 
 **Penjelasan:**
 
-✅ `Mahasiswa.java`  
+`Mahasiswa.java`
+
 Menyimpan atribut dan method untuk object mahasiswa.
 
-✅ `StudentGraph.java`  
+`StudentGraph.java`
+
 Mengelola relasi mahasiswa menggunakan adjacency list.
 
-✅ `StudentHashTable.java`  
+`StudentHashTable.java`
+
 Mengelola operasi Hash Table seperti insert, search, dan delete.
 
-✅ `StudentBST.java`  
+`StudentBST.java`
+
 Mengelola struktur Binary Search Tree untuk mengurutkan mahasiswa berdasarkan IPK.
 Data mahasiswa dimasukkan ke tree dengan aturan:
 IPK lebih kecil ke kiri
@@ -148,16 +173,18 @@ IPK lebih besar ke kanan
 Jika IPK sama, digunakan NIM sebagai pembanding tambahan
 Struktur ini memungkinkan ranking mahasiswa ditampilkan secara terurut menggunakan traversal reverse inorder, sehingga mahasiswa dengan IPK tertinggi muncul terlebih dahulu.
 
-✅ `NodeMahasiswa.java` 
+`NodeMahasiswa.java
+
 Merepresentasikan node pada Binary Search Tree yang menyimpan objek Mahasiswa.
 Setiap node memiliki referensi ke anak kiri dan kanan yang digunakan untuk membangun struktur hierarki tree berdasarkan IPK.
 
-✅ `Main.java`  
+`Main.java`
+
 Menjalankan program dan menyediakan menu interaktif.
 
 ---
 
-## ▶️ Cara Menjalankan Program
+## Cara Menjalankan Program
 
 1. Compile semua file Java dan jalankan:
 
@@ -167,7 +194,7 @@ javac *.java && java Main
 
 ---
 
-## 📊 Analisis Kompleksitas
+## Analisis Kompleksitas
 
 | Operasi Hash Table | Kompleksitas                  |
 | ------------------ | ----------------------------- |
@@ -178,7 +205,7 @@ javac *.java && java Main
 
 Operasi graph seperti add/delete relasi rata-rata O(1) hingga O(k), tergantung jumlah koneksi pada NIM terkait.
 
-## 📊 Graph (Adjacency List)
+## Graph (Adjacency List)
 
 | Operasi                  | Kompleksitas                  |
 | ------------------------ | ----------------------------- |
@@ -190,7 +217,7 @@ Keterangan:
 V = jumlah mahasiswa (vertex)
 E = jumlah relasi (edge)
 
-## 📊 Binary Search Tree
+## Binary Search Tree
 
 | Operasi                  | Kompleksitas                  |
 | ------------------------ | ----------------------------- |
@@ -203,7 +230,7 @@ Data dimasukkan mengikuti aturan binary search sehingga traversal reverse inorde
 
 ---
 
-## ✅ Kelebihan Sistem
+## Kelebihan Sistem
 
 - Pencarian data cepat melalui Hash Table
 - Relasi mahasiswa mudah dikelola lewat graph
@@ -214,7 +241,7 @@ Data dimasukkan mengikuti aturan binary search sehingga traversal reverse inorde
 
 ---
 
-## ❌ Kekurangan Sistem
+## Kekurangan Sistem
 
 - Tidak menyimpan data secara terurut
 - Bergantung pada hashing
@@ -224,6 +251,6 @@ Data dimasukkan mengikuti aturan binary search sehingga traversal reverse inorde
 
 ---
 
-## 📌 Kesimpulan
+## Kesimpulan
 
 Implementasi Hash Table pada Sistem Data Mahasiswa terbukti efektif untuk meningkatkan kecepatan pencarian dan pengelolaan data. Dengan kompleksitas rata-rata O(1), struktur data ini sangat cocok digunakan dalam aplikasi yang membutuhkan akses data secara cepat. Sedangkan Graph memodelkan hubungan antar mahasiswa, dan BST memungkinkan penyusunan ranking berdasarkan IPK secara efisien. Integrasi ketiganya menghasilkan sistem yang lebih fleksibel dibanding penggunaan satu struktur data saja.
