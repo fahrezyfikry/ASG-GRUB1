@@ -23,7 +23,7 @@
 
 ## Link project:
 
-https://github.com/Kelompok-DA/ASG-GRUB1/tree/main/project-teampracticum
+https://github.com/Kelompok-DA/ASG-GRUB1/tree/main/project-team-practicum
 
 ## Deskripsi Project
 
